@@ -9,15 +9,6 @@ const EASE_CURVE = [0.22, 0.75, 0.20, 1];
 
 export default function Hero() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   const slider = BIG_STONE_ASSETS.heroSlider;
   const current = slider[activeIndex];
   const nextItem = slider[(activeIndex + 1) % slider.length];
