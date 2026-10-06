@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  background: #0c0c0c;
+}
+html,
+body {
+  overflow-x: clip;
+}
+body {
+  @apply bg-ink font-display text-bone antialiased;
+}
+::selection {
+  background: #c8a86b;
+  color: #0c0c0c;
+}
+:focus-visible {
+  outline: 2px solid #c8a86b;
+  outline-offset: 3px;
+}
+
+.text-hero-gradient {
+  background: linear-gradient(180deg, #7e817f 0%, #f1eee7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-gold {
+  background: linear-gradient(123deg, #17120a 7%, #8c6a2d 40%, #c8a86b 72%, #6f5427 100%);
+  box-shadow: inset 0 0 12px rgba(232, 205, 150, 0.45), 0 0 0 1px rgba(243, 240, 234, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
