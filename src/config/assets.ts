@@ -40,10 +40,44 @@ const lookbookImages: Piece[] = [
 ];
 
 export const BIG_STONE_ASSETS = {
-  heroImage: {
-    src: '/images/big-stone/hero.jpg',
-    alt: 'Big Stone Luxury model wearing a black agbada-inspired suit with gold embroidery',
-  },
+  heroSlider: [
+    {
+      id: 1,
+      name: "Noir Monogram Hoodie",
+      price: 450000,
+      desc: "Signature all-over monogram fleece with ribbed cuffs.",
+      src: "/images/big-stone/hoodie-1.png",
+      bgColor: "#0a0a0a",
+      accent: "#f5f5f5"
+    },
+    {
+      id: 2,
+      name: "Graphite Arch Hoodie",
+      price: 380000,
+      desc: "Premium cotton blend featuring the classic monogram arch.",
+      src: "/images/big-stone/hoodie-2.png",
+      bgColor: "#1a1a1a",
+      accent: "#e0e0e0"
+    },
+    {
+      id: 3,
+      name: "Onyx Floral Zip-Up",
+      price: 420000,
+      desc: "Statement zip-up with abstract floral monogram motifs.",
+      src: "/images/big-stone/hoodie-3.png",
+      bgColor: "#121212",
+      accent: "#ffffff"
+    },
+    {
+      id: 4,
+      name: "Aero Flight Hoodie",
+      price: 520000,
+      desc: "Exclusive airplane motif scattering into the iconic logo.",
+      src: "/images/big-stone/hoodie-4.png",
+      bgColor: "#1c1e1f",
+      accent: "#ffffff"
+    }
+  ],
   lookbookImages,
   decorativeImages: {
     topLeft: { src: '/images/big-stone/deco-bag.jpg', alt: 'Black leather handbag with gold hardware' },

@@ -20,6 +20,7 @@ export const COLLECTIONS = [
 ];
 
 export const CONTACT = {
-  email: 'hello@bigstoneluxury.com',
-  location: 'Uyo, Akwa Ibom, Nigeria',
+  email: 'hello@stonebigluxury.com',
+  location: '17 Oron Road, Uyo',
+  facebook: 'Stone Big Luxury',
 };

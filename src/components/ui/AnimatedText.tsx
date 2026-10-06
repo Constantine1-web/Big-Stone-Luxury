@@ -1,28 +1,55 @@
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 
-/** Character-by-character opacity reveal driven by scroll (0.2 → 1). */
-export default function AnimatedText({ text, className = '' }: { text: string; className?: string }) {
-  const ref = useRef<HTMLParagraphElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.8', 'end 0.2'] });
-  const chars = Array.from(text);
-
-  return (
-    <p ref={ref} className={className} aria-label={text}>
-      {chars.map((c, i) => (
-        <Char key={i} progress={scrollYProgress} range={[i / chars.length, (i + 1) / chars.length]}>
-          {c}
-        </Char>
-      ))}
-    </p>
-  );
+interface AnimatedTextProps {
+  text: string;
+  className?: string;
 }
 
-function Char({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
-  const opacity = useTransform(progress, range, [0.2, 1]);
+export default function AnimatedText({ text, className = '' }: AnimatedTextProps) {
+  // Split text into words for a smoother stagger effect rather than characters
+  const words = text.split(' ');
+
+  const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.04,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const child = {
+    hidden: {
+      opacity: 0,
+      y: 10,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.1, 0.25, 1],
+      },
+    },
+  };
+
   return (
-    <motion.span aria-hidden style={{ opacity }}>
-      {children}
-    </motion.span>
+    <motion.p
+      className={className}
+      variants={container}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-10% 0px' }}
+    >
+      {words.map((word, index) => (
+        <span key={index} className="inline-block mr-[0.25em]">
+          <motion.span variants={child} className="inline-block">
+            {word}
+          </motion.span>
+        </span>
+      ))}
+    </motion.p>
   );
 }

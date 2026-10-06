@@ -40,7 +40,7 @@ export default function About() {
         <div className="mt-10 max-w-[560px] space-y-6 md:mt-14">
           <AnimatedText
             className="text-base font-medium leading-relaxed text-bone sm:text-lg md:text-xl"
-            text="Big Stone Luxury is built around confidence, craftsmanship and modern African elegance. We create fashion for people who refuse to disappear into the crowd."
+            text="Stone Big Luxury is built around confidence, craftsmanship and modern African elegance. We create fashion for people who refuse to disappear into the crowd."
           />
           <AnimatedText
             className="font-serif text-xl italic leading-relaxed text-gold sm:text-2xl"

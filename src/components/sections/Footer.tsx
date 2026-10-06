@@ -1,4 +1,4 @@
-import { ArrowUpRight, Instagram, Mail, MapPin } from 'lucide-react';
+import { ArrowUpRight, Facebook, Mail, MapPin } from 'lucide-react';
 import { CONTACT } from '../../config/content';
 import Button from '../ui/Button';
 
@@ -15,16 +15,16 @@ export default function Footer() {
             <span className="inline-flex items-center gap-2">
               <MapPin size={16} aria-hidden /> {CONTACT.location}
             </span>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 transition-opacity hover:opacity-70">
-              <Instagram size={16} aria-hidden /> Instagram
+            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 transition-opacity hover:opacity-70">
+              <Facebook size={16} aria-hidden /> {CONTACT.facebook}
             </a>
           </div>
         </div>
-        <Button href={`mailto:${CONTACT.email}?subject=Big%20Stone%20Luxury%20Enquiry`}>
+        <Button href={`mailto:${CONTACT.email}?subject=Stone%20Big%20Luxury%20Enquiry`}>
           Book a Fitting <ArrowUpRight size={16} className="ml-2" aria-hidden />
         </Button>
       </div>
-      <p className="mt-10 text-xs uppercase tracking-widest text-bone/40">© {new Date().getFullYear()} Big Stone Luxury · Uyo</p>
+      <p className="mt-10 text-xs uppercase tracking-widest text-bone/40">© {new Date().getFullYear()} Stone Big Luxury · Uyo</p>
     </footer>
   );
 }

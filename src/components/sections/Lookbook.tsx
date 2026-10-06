@@ -1,80 +1,58 @@
-import { useEffect, useRef } from 'react';
-import { useReducedMotion } from 'framer-motion';
-import { BIG_STONE_ASSETS, formatNaira, type Piece } from '../../config/assets';
-
-const imgs = BIG_STONE_ASSETS.lookbookImages;
-const half = Math.ceil(imgs.length / 2);
-const ROW_A = imgs.slice(0, half);
-const ROW_B = imgs.slice(half);
+import { BIG_STONE_ASSETS } from '../../config/assets';
 
 export default function Lookbook() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const rowA = useRef<HTMLDivElement>(null);
-  const rowB = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const allImages = BIG_STONE_ASSETS.lookbookImages;
+  
+  // Split images into two rows
+  const mid = Math.ceil(allImages.length / 2);
+  const row1 = allImages.slice(0, mid);
+  const row2 = allImages.slice(mid);
 
-  useEffect(() => {
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const sec = sectionRef.current;
-      if (!sec || !rowA.current || !rowB.current) return;
-      const sectionTop = sec.getBoundingClientRect().top + window.scrollY;
-      const offset = reduce ? 0 : (window.scrollY - sectionTop + window.innerHeight) * 0.3;
-      // width of ONE set (tracks hold the set 3×)
-      const setA = rowA.current.scrollWidth / 3;
-      const setB = rowB.current.scrollWidth / 3;
-      const a = ((offset % setA) + setA) % setA;
-      const b = ((offset % setB) + setB) % setB;
-      rowA.current.style.transform = `translate3d(${-setA + a}px,0,0)`; // drifts RIGHT
-      rowB.current.style.transform = `translate3d(${-setB - b + setB / 2}px,0,0)`; // drifts LEFT
-    };
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      cancelAnimationFrame(frame);
-    };
-  }, [reduce]);
+  // Duplicate for seamless loop
+  const duplicatedRow1 = [...row1, ...row1, ...row1, ...row1];
+  const duplicatedRow2 = [...row2, ...row2, ...row2, ...row2];
 
   return (
-    <section id="lookbook" ref={sectionRef} className="relative overflow-hidden bg-ink py-6 md:py-10" aria-label="Lookbook">
-      <h2 className="sr-only">Lookbook</h2>
-      <div className="flex flex-col gap-3">
-        <Row trackRef={rowA} items={ROW_A} />
-        <Row trackRef={rowB} items={ROW_B} />
+    <section id="lookbook" className="relative w-full overflow-hidden bg-ink py-16 md:py-24">
+      <div className="flex flex-col gap-3 md:gap-4 w-full">
+        
+        {/* ROW 1: Moves Left */}
+        <div className="flex w-[200%] animate-marquee gap-3 md:gap-4 hover:[animation-play-state:paused]">
+          {duplicatedRow1.map((item, idx) => (
+            <div
+              key={`row1-${idx}`}
+              className="relative aspect-[4/3] w-[280px] shrink-0 overflow-hidden rounded-xl md:w-[420px] md:rounded-2xl"
+            >
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-ink/10 opacity-0 transition-opacity hover:opacity-100" />
+            </div>
+          ))}
+        </div>
+
+        {/* ROW 2: Moves Right */}
+        <div className="flex w-[200%] animate-marquee-reverse gap-3 md:gap-4 hover:[animation-play-state:paused] -ml-[10%]">
+          {duplicatedRow2.map((item, idx) => (
+            <div
+              key={`row2-${idx}`}
+              className="relative aspect-[4/3] w-[280px] shrink-0 overflow-hidden rounded-xl md:w-[420px] md:rounded-2xl"
+            >
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-ink/10 opacity-0 transition-opacity hover:opacity-100" />
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
-  );
-}
-
-function Row({ trackRef, items }: { trackRef: React.RefObject<HTMLDivElement>; items: Piece[] }) {
-  const tripled = [...items, ...items, ...items];
-  return (
-    <div ref={trackRef} className="flex w-max gap-3" style={{ willChange: 'transform' }}>
-      {tripled.map((p, i) => (
-        <figure
-          key={i}
-          className="group relative aspect-[420/270] w-[260px] shrink-0 overflow-hidden rounded-2xl bg-white/5 sm:w-[340px] md:w-[420px]"
-          aria-hidden={i >= items.length ? true : undefined}
-        >
-          <img
-            src={p.src}
-            alt={i < items.length ? p.alt : ''}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-          />
-          <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/75 to-transparent p-4 pt-10 text-bone">
-            <span className="text-xs font-medium uppercase tracking-wider sm:text-sm">{p.name}</span>
-            <span className="font-serif text-sm italic text-gold sm:text-base">{formatNaira(p.price)}</span>
-          </figcaption>
-        </figure>
-      ))}
-    </div>
   );
 }
