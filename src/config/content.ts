@@ -1,4 +1,4 @@
-export const NAV_LINKS = [
+﻿export const NAV_LINKS = [
   { label: 'About', href: '#about' },
   { label: 'Collections', href: '#collections' },
   { label: 'Lookbook', href: '#lookbook' },
@@ -10,7 +10,7 @@ export const SERVICES = [
   { title: 'Ready-to-Wear', desc: 'Curated luxury pieces designed for effortless everyday impact.' },
   { title: 'Style Consultation', desc: 'Personal styling guidance for occasions, personal identity and wardrobe direction.' },
   { title: 'Private Orders', desc: 'Exclusive pieces and special requests tailored to individual clients.' },
-  { title: 'Fashion Experience', desc: 'A complete Big Stone Luxury experience built around quality, presentation and confidence.' },
+  { title: 'Fashion Experience', desc: 'A complete Stone Big Luxury experience built around quality, presentation and confidence.' },
 ];
 
 export const COLLECTIONS = [

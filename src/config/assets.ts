@@ -40,64 +40,6 @@ const lookbookImages: Piece[] = [
 ];
 
 export const BIG_STONE_ASSETS = {
-  heroSlider: [
-    {
-      id: 1,
-      name: "Noir Monogram",
-      price: 450000,
-      desc: "Signature all-over monogram fleece with ribbed cuffs.",
-      src: "/images/big-stone/hoodie-1.png",
-      colors: {
-        primary: "#151515",
-        dark: "#080808",
-        light: "#282828",
-        ambient: "#101010",
-        outer: "#0a0a0a"
-      }
-    },
-    {
-      id: 2,
-      name: "Graphite Arch",
-      price: 380000,
-      desc: "Premium cotton blend featuring the classic monogram arch.",
-      src: "/images/big-stone/hoodie-2.png",
-      colors: {
-        primary: "#1c1e21",
-        dark: "#0b0c0e",
-        light: "#34383d",
-        ambient: "#141517",
-        outer: "#0d0e10"
-      }
-    },
-    {
-      id: 3,
-      name: "Onyx Floral",
-      price: 420000,
-      desc: "Statement zip-up with abstract floral monogram motifs.",
-      src: "/images/big-stone/hoodie-3.png",
-      colors: {
-        primary: "#101012",
-        dark: "#000000",
-        light: "#222226",
-        ambient: "#0a0a0b",
-        outer: "#050505"
-      }
-    },
-    {
-      id: 4,
-      name: "Aero Flight",
-      price: 520000,
-      desc: "Exclusive airplane motif scattering into the iconic logo.",
-      src: "/images/big-stone/hoodie-4.png",
-      colors: {
-        primary: "#171a1c",
-        dark: "#08090a",
-        light: "#2d3338",
-        ambient: "#101214",
-        outer: "#0b0c0d"
-      }
-    }
-  ],
   lookbookImages,
   decorativeImages: {
     topLeft: { src: '/images/big-stone/deco-bag.jpg', alt: 'Black leather handbag with gold hardware' },

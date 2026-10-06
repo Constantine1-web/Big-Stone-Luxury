@@ -1,170 +1,188 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import type { ReactNode } from 'react';
 import Button from '../ui/Button';
-import { BIG_STONE_ASSETS, formatNaira } from '../../config/assets';
+import { formatNaira } from '../../config/assets';
+import { HERO_PRODUCTS, INK } from '../../config/products';
+import { NAV_LINKS } from '../../config/content';
+import ProductStage, { HERO_EASE } from '../hero/ProductStage';
+import ColorEnvironment from '../hero/ColorEnvironment';
+import { useProductCycle } from '../hero/useProductCycle';
 
-const TRANSITION_DURATION = 0.55; // Slightly slower transition so it's readable
-const HOLD_DURATION = 4000; // 4 seconds hold (so it's not too fast)
-const EASE_CURVE = [0.16, 1, 0.3, 1]; // using the alternative curve requested by user
+/* ---- Timing (spec §13): HOLD 900ms → TRANSITION 500ms, repeat ---- */
+const HOLD_MS = 900;
+const TRANSITION_MS = 500;
+const T = TRANSITION_MS / 1000;
+
+/** Product-specific text swap: fade + 4px shift inside a fixed box (no layout shift). */
+function Swap({ k, children, className = '' }: { k: string; children: ReactNode; className?: string }) {
+  return (
+    <AnimatePresence initial={false}>
+      <motion.div
+        key={k}
+        className={`absolute inset-0 ${className}`}
+        initial={{ opacity: 0, y: 4 }}
+        animate={{ opacity: 1, y: 0, transition: { duration: 0.25, delay: 0.1, ease: HERO_EASE } }}
+        exit={{ opacity: 0, y: -4, transition: { duration: 0.2, ease: HERO_EASE } }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
+}
 
 export default function Hero() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const slider = BIG_STONE_ASSETS.heroSlider;
-  const current = slider[activeIndex];
-  const nextItem = slider[(activeIndex + 1) % slider.length];
-
-  // Auto-rotate logic
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % slider.length);
-    }, HOLD_DURATION);
-    return () => clearInterval(interval);
-  }, [slider.length]);
+  const { current, upcoming, index, direction, count, goTo, next } = useProductCycle(HERO_PRODUCTS, {
+    holdMs: HOLD_MS,
+    transitionMs: TRANSITION_MS,
+  });
 
   return (
-    <motion.section
-      className="relative flex h-[100dvh] min-h-[600px] w-full flex-col overflow-hidden"
-      animate={{ backgroundColor: current.colors.outer }}
-      transition={{ duration: TRANSITION_DURATION, ease: EASE_CURVE }}
-    >
-      {/* Inner Hero Panel - Radial Gradient */}
+    <section id="top" className="relative min-h-[100dvh] p-2 sm:p-3 md:h-[100dvh] md:min-h-[660px] md:p-4 lg:p-5">
+      {/* LEVEL 2 — outer page atmosphere (subtle) */}
+      <ColorEnvironment product={current} layer={count} transitionMs={TRANSITION_MS} variant="outer" />
+
+      {/* LEVEL 1 — stationary hero panel (the stage). Never moves; only its colours change. */}
       <motion.div
-        className="absolute inset-2 md:inset-6 rounded-3xl z-0"
-        animate={{
-          background: `radial-gradient(circle at 50% 45%, ${current.colors.light}, ${current.colors.primary} 55%, ${current.colors.dark} 100%)`
-        }}
-        transition={{ duration: TRANSITION_DURATION, ease: EASE_CURVE }}
-      />
-
-      {/* Header / Nav */}
-      <nav className="absolute top-0 z-50 flex w-full justify-between px-8 pt-8 text-sm uppercase tracking-wider md:px-12 md:pt-12 md:text-lg lg:text-[1.4rem]">
-        <a href="#about" className="font-medium text-bone transition-opacity hover:opacity-70">About</a>
-        <a href="#collection" className="font-medium text-bone transition-opacity hover:opacity-70">Collections</a>
-        <a href="#lookbook" className="font-medium text-bone transition-opacity hover:opacity-70">Lookbook</a>
-        <a href="#contact" className="font-medium text-bone transition-opacity hover:opacity-70">Contact</a>
-      </nav>
-
-      {/* Main Content Area */}
-      <div className="relative z-10 flex h-full w-full flex-col md:flex-row items-center justify-between px-8 pt-24 pb-12 md:px-16 md:pt-32">
-        
-        {/* Left Side: Specs & Typography */}
-        <div className="flex w-full md:w-5/12 flex-col justify-center order-2 md:order-1 mt-8 md:mt-0 relative h-[300px] md:h-[400px]">
-          <AnimatePresence mode="sync">
-            <motion.div
-              key={current.id}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: TRANSITION_DURATION, ease: EASE_CURVE }}
-              className="absolute top-0 left-0 flex flex-col gap-4 pointer-events-none w-full"
-            >
-              <div className="inline-block overflow-hidden">
-                <span className="block text-xs md:text-sm uppercase tracking-[0.3em] text-bone/60">
-                  New Arrival — {String(activeIndex + 1).padStart(2, '0')}
-                </span>
-              </div>
-              
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black uppercase leading-[0.9] tracking-tight text-bone">
-                {current.name}
-              </h1>
-              
-              <div className="mt-2 text-2xl md:text-3xl font-serif italic text-white/80">
-                {formatNaira(current.price)}
-              </div>
-
-              {/* Catchy Outline Panel */}
-              <div className="mt-4 md:mt-6 border-l-2 border-white/20 pl-4 py-1">
-                <p className="text-sm md:text-base font-light leading-relaxed text-bone/80 max-w-sm">
-                  {current.desc}
-                </p>
-                <div className="mt-4 flex gap-4">
-                  <div className="flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-white/70"></div>
-                    <span className="text-xs uppercase tracking-widest text-bone/60">Premium</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="absolute md:relative bottom-0 left-0 md:mt-10 z-20">
-            <Button href="#collection">Shop The Collection</Button>
-          </div>
-        </div>
-
-        {/* Right Side: Product Stack */}
-        <div className="relative flex w-full md:w-7/12 h-[45vh] md:h-full items-center justify-center order-1 md:order-2">
-          {/* Subtle Background Typography */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none overflow-hidden">
-            <span className="whitespace-nowrap text-[15vw] md:text-[12vw] font-black uppercase leading-none tracking-tighter text-white">
-              STONE BIG
-            </span>
-          </div>
-
-          {/* Product Container */}
-          <div className="relative z-10 w-full h-full flex items-center justify-center">
-            <AnimatePresence mode="sync">
-              <motion.img
-                key={current.id}
-                src={current.src}
-                alt={current.name}
-                className="absolute h-full max-h-[400px] md:max-h-[75vh] w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
-                initial={{ opacity: 0, scale: 0.94, y: 70, filter: 'blur(4px)' }}
-                animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, scale: 0.94, y: -70, filter: 'blur(4px)' }}
-                transition={{ duration: TRANSITION_DURATION, ease: EASE_CURVE }}
-              />
-            </AnimatePresence>
-          </div>
-        </div>
-      </div>
-
-      {/* Next Item Thumbnail Preview */}
-      <div 
-        className="absolute bottom-6 right-6 md:bottom-12 md:right-12 z-30 flex cursor-pointer flex-col items-end gap-2"
-        onClick={() => setActiveIndex((activeIndex + 1) % slider.length)}
+        className="relative flex min-h-[calc(100dvh-16px)] flex-col overflow-hidden rounded-[22px] md:h-full md:min-h-0 md:rounded-[32px]"
+        initial={false}
+        animate={{ color: INK[current.ink] }}
+        transition={{ duration: T, ease: HERO_EASE }}
       >
-        <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-bone/50">Next</span>
-        <div className="relative flex h-16 w-16 md:h-24 md:w-24 items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur-md overflow-hidden">
-          <AnimatePresence mode="sync">
-            <motion.img
-              key={nextItem.id}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: TRANSITION_DURATION, ease: EASE_CURVE }}
-              src={nextItem.src}
-              className="absolute h-[80%] w-[80%] object-contain drop-shadow-lg"
-              alt="Next item"
-            />
-          </AnimatePresence>
-        </div>
-      </div>
+        <ColorEnvironment product={current} layer={count} transitionMs={TRANSITION_MS} variant="panel" />
 
-      {/* Color Selector */}
-      <div className="absolute bottom-6 md:bottom-12 left-1/2 flex -translate-x-1/2 gap-3 z-20 items-center">
-        {slider.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setActiveIndex(i)}
-            aria-label={`Go to slide ${i + 1}`}
-            className="relative flex items-center justify-center w-6 h-6"
-          >
-            <motion.div
-              className={`rounded-full transition-colors duration-300 ${
-                activeIndex === i ? 'bg-white h-2 w-2' : 'bg-white/30 h-1.5 w-1.5'
-              }`}
-            />
-            {activeIndex === i && (
-              <motion.div
-                layoutId="active-ring"
-                className="absolute inset-0 rounded-full border border-white/40"
-                transition={{ duration: TRANSITION_DURATION, ease: EASE_CURVE }}
+        <div className="relative z-[100] flex flex-1 flex-col px-5 pb-6 pt-5 sm:px-8 md:min-h-0 md:px-10 md:pb-8 md:pt-7 lg:px-14">
+          {/* BRAND + NAV */}
+          <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <a href="#top" className="text-sm font-bold uppercase tracking-[0.25em] md:text-base">
+              Stone Big Luxury
+            </a>
+            <nav className="flex justify-between gap-4 text-xs font-medium uppercase tracking-wider sm:text-sm md:justify-end md:gap-8 lg:gap-10 lg:text-base">
+              {NAV_LINKS.map((l) => (
+                <a key={l.href} href={l.href} className="transition-opacity duration-200 hover:opacity-70">
+                  {l.label}
+                </a>
+              ))}
+            </nav>
+          </header>
+
+          <div className="hero-grid mt-6 flex-1 md:mt-8 md:min-h-0">
+            {/* LEFT — protected copy zone (static) */}
+            <div className="hero-copy flex flex-col justify-center">
+              <p className="text-[0.65rem] font-medium uppercase tracking-[0.3em] opacity-60 md:text-xs">
+                Uyo · Collection 01
+              </p>
+              <h1 className="mt-3 max-w-[300px] font-black uppercase leading-[0.92] tracking-tight text-[clamp(2.4rem,11vw,3.4rem)] md:mt-4 md:text-[clamp(1.9rem,3.6vw,3.6rem)]">
+                Wear the
+                <br />
+                moment
+              </h1>
+              <p className="mt-4 hidden max-w-[300px] text-sm font-light leading-relaxed opacity-75 md:block lg:text-[0.95rem]">
+                Luxury fashion crafted in Uyo for those who know exactly who they are.
+              </p>
+            </div>
+
+            {/* CENTRE — the only zone the product may move in. overflow-hidden clips it. */}
+            <div className="hero-stage relative h-[clamp(260px,42vh,420px)] md:h-auto">
+              <ProductStage
+                productKey={current.id}
+                image={current.image}
+                alt={current.name}
+                direction={direction}
+                transitionMs={TRANSITION_MS}
               />
-            )}
-          </button>
-        ))}
-      </div>
-    </motion.section>
+            </div>
+
+            {/* RIGHT — protected product info zone */}
+            <div className="hero-info flex min-w-0 flex-col justify-center md:max-w-[260px] md:justify-self-end md:w-full">
+              <div className="relative h-[104px] md:h-[300px]">
+                <Swap k={current.id}>
+                  <p className="text-[0.65rem] font-medium uppercase tracking-[0.3em] opacity-60 md:text-xs">
+                    {current.category} · {String(index + 1).padStart(2, '0')}/{String(HERO_PRODUCTS.length).padStart(2, '0')}
+                  </p>
+                  <p className="mt-2 line-clamp-1 text-base font-semibold uppercase tracking-wide md:line-clamp-2 md:text-lg">
+                    {current.name}
+                  </p>
+                  <div className="mt-2 flex items-baseline gap-3 md:mt-4 md:flex-col md:gap-1">
+                    <span className="whitespace-nowrap text-2xl font-black tracking-tight md:text-[clamp(1.6rem,2.4vw,2.2rem)]">
+                      {formatNaira(current.price)}
+                    </span>
+                    <span className="whitespace-nowrap text-sm line-through opacity-50">
+                      {formatNaira(current.originalPrice)}
+                    </span>
+                  </div>
+                  <div className="mt-5 hidden md:block">
+                    <div className="h-px w-full bg-current opacity-20" />
+                    <p className="mt-4 line-clamp-3 text-sm font-light leading-relaxed opacity-75">{current.description}</p>
+                    <ul className="mt-3 space-y-1 text-[0.7rem] uppercase tracking-widest opacity-60">
+                      {current.details.map((d) => (
+                        <li key={d}>— {d}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </Swap>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="hero-cta flex items-end">
+              <Button href="#collections">Shop the collection</Button>
+            </div>
+
+            {/* CONTROLS — colour selectors + next-product preview (fixed position) */}
+            <div className="hero-controls flex items-end justify-between gap-6 md:flex-col md:items-end md:justify-end md:gap-5">
+              <div className="flex items-center gap-3" role="tablist" aria-label="Choose product">
+                {HERO_PRODUCTS.map((p, i) => {
+                  const active = i === index;
+                  return (
+                    <button
+                      key={p.id}
+                      role="tab"
+                      aria-selected={active}
+                      aria-label={p.name}
+                      onClick={() => goTo(i)}
+                      className="relative flex h-7 w-7 items-center justify-center"
+                    >
+                      <motion.span
+                        className="absolute inset-0 rounded-full border border-current"
+                        initial={false}
+                        animate={{ opacity: active ? 0.9 : 0, scale: active ? 1 : 0.7 }}
+                        transition={{ duration: 0.25, ease: HERO_EASE }}
+                      />
+                      <motion.span
+                        className="h-4 w-4 rounded-full"
+                        style={{ backgroundColor: p.dominantColor, boxShadow: 'inset 0 0 0 1px rgba(128,128,128,0.55)' }}
+                        initial={false}
+                        animate={{ scale: active ? 1.1 : 0.8, opacity: active ? 1 : 0.65 }}
+                        transition={{ duration: 0.25, ease: HERO_EASE }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button onClick={next} className="group flex shrink-0 flex-col items-end gap-2" aria-label={`Next: ${upcoming.name}`}>
+                <span className="text-[0.6rem] font-semibold uppercase tracking-[0.25em] opacity-60">Next</span>
+                <span className="relative block h-20 w-20 overflow-hidden rounded-2xl md:h-24 md:w-24">
+                  <span className="absolute inset-0 rounded-2xl border border-current opacity-20" />
+                  <span className="absolute inset-0 bg-current opacity-[0.06] transition-opacity duration-200 group-hover:opacity-[0.12]" />
+                  <AnimatePresence initial={false}>
+                    <motion.img
+                      key={upcoming.id}
+                      src={upcoming.image}
+                      alt=""
+                      draggable={false}
+                      className="absolute left-[12%] top-[12%] h-[76%] w-[76%] object-contain"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0, transition: { duration: 0.3, ease: HERO_EASE } }}
+                      exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                    />
+                  </AnimatePresence>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </section>
   );
 }

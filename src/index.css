@@ -60,3 +60,44 @@ body {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
 }
+
+/* ------------------------------------------------------------------
+   HERO GRID — protected text zones + clipped centre product stage.
+   Mobile order: copy → stage → info (price) → cta → controls
+   Tablet/desktop: TEXT | HOODIE | PRICE
+   ------------------------------------------------------------------ */
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'copy'
+    'stage'
+    'info'
+    'cta'
+    'controls';
+  row-gap: 1.25rem;
+}
+.hero-copy { grid-area: copy; }
+.hero-stage { grid-area: stage; }
+.hero-info { grid-area: info; }
+.hero-cta { grid-area: cta; }
+.hero-controls { grid-area: controls; }
+
+@media (min-width: 768px) {
+  .hero-grid {
+    grid-template-columns: minmax(180px, 0.9fr) minmax(260px, 1.5fr) minmax(160px, 0.7fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'copy stage info'
+      'cta  stage controls';
+    column-gap: 1.5rem;
+    row-gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: minmax(220px, 0.9fr) minmax(340px, 1.6fr) minmax(180px, 0.7fr);
+    column-gap: clamp(2rem, 3.5vw, 3.5rem);
+  }
+}
