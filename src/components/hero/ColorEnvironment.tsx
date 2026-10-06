@@ -36,7 +36,7 @@ export default function ColorEnvironment({ product, layer, transitionMs, variant
         <motion.div
           key={product.id}
           className="absolute inset-0"
-          style={{ background, zIndex: layer }}
+          style={{ background }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: T, ease: [0.45, 0, 0.25, 1] } }}
           // Outgoing palette stays fully opaque underneath until the new one has covered it.
