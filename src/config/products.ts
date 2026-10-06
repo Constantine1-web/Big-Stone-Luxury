@@ -36,7 +36,7 @@ export interface ProductState {
 export const HERO_PRODUCTS: ProductState[] = [
   {
     id: 'noir-monogram',
-    image: '/images/big-stone/products/noir-monogram-hoodie.png',
+    image: '/images/big-stone/products/noir-monogram-hoodie.png?v=2',
     name: 'Noir Monogram Hoodie',
     category: 'Hoodie',
     price: 450000,
@@ -52,7 +52,7 @@ export const HERO_PRODUCTS: ProductState[] = [
   },
   {
     id: 'graphite-band',
-    image: '/images/big-stone/products/graphite-band-hoodie.png',
+    image: '/images/big-stone/products/graphite-band-hoodie.png?v=2',
     name: 'Graphite Band Hoodie',
     category: 'Hoodie',
     price: 380000,
@@ -68,7 +68,7 @@ export const HERO_PRODUCTS: ProductState[] = [
   },
   {
     id: 'duo-sweatpants',
-    image: '/images/big-stone/products/duo-wide-leg-sweatpants.png',
+    image: '/images/big-stone/products/duo-wide-leg-sweatpants.png?v=2',
     name: 'Duo Wide-Leg Sweatpants',
     category: 'Joggers',
     price: 295000,
@@ -84,7 +84,7 @@ export const HERO_PRODUCTS: ProductState[] = [
   },
   {
     id: 'ivory-signature',
-    image: '/images/big-stone/products/ivory-signature-hoodie.png',
+    image: '/images/big-stone/products/ivory-signature-hoodie.png?v=2',
     name: 'Ivory Signature Hoodie',
     category: 'Hoodie',
     price: 265000,
@@ -100,7 +100,7 @@ export const HERO_PRODUCTS: ProductState[] = [
   },
   {
     id: 'aero-flight',
-    image: '/images/big-stone/products/aero-flight-hoodie.png',
+    image: '/images/big-stone/products/aero-flight-hoodie.png?v=2',
     name: 'Aero Flight Hoodie',
     category: 'Hoodie',
     price: 520000,
