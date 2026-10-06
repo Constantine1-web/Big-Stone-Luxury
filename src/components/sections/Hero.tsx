@@ -1,16 +1,21 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Navigation from '../layout/Navigation';
 import Button from '../ui/Button';
 import { BIG_STONE_ASSETS, formatNaira } from '../../config/assets';
-import { useWindowSize } from 'react-use';
 
 export default function Hero() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const slider = BIG_STONE_ASSETS.heroSlider;
   const current = slider[activeIndex];
-  const { width } = useWindowSize();
-  const isMobile = width < 768;
 
   // Auto-rotate logic
   useEffect(() => {
@@ -26,7 +31,26 @@ export default function Hero() {
       animate={{ backgroundColor: current.bgColor }}
       transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }}
     >
-      <Navigation />
+      {/* Header / Nav */}
+      <motion.nav
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        className="absolute top-0 z-50 flex w-full justify-between px-6 pt-6 text-sm uppercase tracking-wider md:px-10 md:pt-8 md:text-lg lg:text-[1.4rem]"
+      >
+        <a href="#about" className="font-medium text-bone transition-opacity hover:opacity-70">
+          About
+        </a>
+        <a href="#collection" className="font-medium text-bone transition-opacity hover:opacity-70">
+          Collections
+        </a>
+        <a href="#lookbook" className="font-medium text-bone transition-opacity hover:opacity-70">
+          Lookbook
+        </a>
+        <a href="#contact" className="font-medium text-bone transition-opacity hover:opacity-70">
+          Contact
+        </a>
+      </motion.nav>
 
       {/* Main Content Area */}
       <div className="relative z-10 flex h-full w-full flex-col md:flex-row items-center justify-between px-6 pt-24 pb-12 md:px-16 md:pt-32">
