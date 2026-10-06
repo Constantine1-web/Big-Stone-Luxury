@@ -8,9 +8,9 @@ import ProductStage, { HERO_EASE } from '../hero/ProductStage';
 import ColorEnvironment from '../hero/ColorEnvironment';
 import { useProductCycle } from '../hero/useProductCycle';
 
-/* ---- Timing (spec §13): HOLD 900ms → TRANSITION 500ms, repeat ---- */
-const HOLD_MS = 900;
-const TRANSITION_MS = 500;
+/* ---- Timing: Slower hold and transition for better readability ---- */
+const HOLD_MS = 3500;
+const TRANSITION_MS = 750;
 const T = TRANSITION_MS / 1000;
 
 /** Product-specific text swap: fade + 4px shift inside a fixed box (no layout shift). */
