@@ -53,8 +53,8 @@ export default function Hero() {
         <div className="relative z-[100] flex flex-1 flex-col px-5 pb-6 pt-5 sm:px-8 md:min-h-0 md:px-10 md:pb-8 md:pt-7 lg:px-14">
           {/* BRAND + NAV */}
           <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <a href="#top" className="text-sm font-bold uppercase tracking-[0.25em] md:text-base">
-              Stone Big Luxury
+            <a href="#top" className="flex items-center">
+              <img src="/images/big-stone/logo.png" alt="Big Stone Luxury" className="h-12 w-auto object-contain md:h-16 lg:h-20" />
             </a>
             <nav className="flex justify-between gap-4 text-xs font-medium uppercase tracking-wider sm:text-sm md:justify-end md:gap-8 lg:gap-10 lg:text-base">
               {NAV_LINKS.map((l) => (

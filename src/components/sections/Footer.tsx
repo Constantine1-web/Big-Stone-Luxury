@@ -20,11 +20,11 @@ export default function Footer() {
             </a>
           </div>
         </div>
-        <Button href={`mailto:${CONTACT.email}?subject=Stone%20Big%20Luxury%20Enquiry`}>
+        <Button href={`mailto:${CONTACT.email}?subject=Big%20Stone%20Luxury%20Enquiry`}>
           Book a Fitting <ArrowUpRight size={16} className="ml-2" aria-hidden />
         </Button>
       </div>
-      <p className="mt-10 text-xs uppercase tracking-widest text-bone/40">© {new Date().getFullYear()} Stone Big Luxury · Uyo</p>
+      <p className="mt-10 text-xs uppercase tracking-widest text-bone/40">© {new Date().getFullYear()} Big Stone Luxury · Uyo</p>
     </footer>
   );
 }
