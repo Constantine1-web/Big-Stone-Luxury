@@ -68,20 +68,19 @@ body {
    ------------------------------------------------------------------ */
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: 1fr auto;
   grid-template-areas:
-    'copy'
-    'stage'
-    'info'
-    'cta'
-    'controls';
-  row-gap: 1.25rem;
+    'copy copy'
+    'stage stage'
+    'info info'
+    'cta controls';
+  row-gap: 1rem;
 }
 .hero-copy { grid-area: copy; }
 .hero-stage { grid-area: stage; }
 .hero-info { grid-area: info; }
-.hero-cta { grid-area: cta; }
-.hero-controls { grid-area: controls; }
+.hero-cta { grid-area: cta; align-self: end; }
+.hero-controls { grid-area: controls; justify-self: end; }
 
 @media (min-width: 768px) {
   .hero-grid {

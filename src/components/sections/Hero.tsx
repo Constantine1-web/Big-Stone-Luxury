@@ -1,4 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 import type { ReactNode } from 'react';
 import Button from '../ui/Button';
 import { formatNaira } from '../../config/assets';
@@ -31,6 +33,7 @@ function Swap({ k, children, className = '' }: { k: string; children: ReactNode;
 }
 
 export default function Hero() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { current, upcoming, index, direction, count, goTo, next } = useProductCycle(HERO_PRODUCTS, {
     holdMs: HOLD_MS,
     transitionMs: TRANSITION_MS,
@@ -52,18 +55,85 @@ export default function Hero() {
 
         <div className="relative z-[100] flex flex-1 flex-col px-5 pb-6 pt-5 sm:px-8 md:min-h-0 md:px-10 md:pb-8 md:pt-7 lg:px-14">
           {/* BRAND + NAV */}
-          <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <a href="#top" className="flex items-center">
-              <img src="/images/big-stone/logo.png" alt="Big Stone Luxury" className="h-12 w-auto object-contain md:h-16 lg:h-20" />
+          <header className="flex items-center justify-between">
+            <a href="#top" className="flex items-center" aria-label="Big Stone Luxury">
+              <div 
+                className="h-10 w-32 bg-current md:h-12 md:w-36 lg:h-14 lg:w-44"
+                style={{
+                  WebkitMaskImage: 'url(/images/big-stone/logo.png)',
+                  WebkitMaskSize: 'contain',
+                  WebkitMaskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'left center',
+                  maskImage: 'url(/images/big-stone/logo.png)',
+                  maskSize: 'contain',
+                  maskRepeat: 'no-repeat',
+                  maskPosition: 'left center',
+                }}
+              />
             </a>
-            <nav className="flex justify-between gap-4 text-xs font-medium uppercase tracking-wider sm:text-sm md:justify-end md:gap-8 lg:gap-10 lg:text-base">
+            
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex justify-end gap-8 text-sm font-medium uppercase tracking-wider lg:gap-10 lg:text-base">
               {NAV_LINKS.map((l) => (
                 <a key={l.href} href={l.href} className="transition-opacity duration-200 hover:opacity-70">
                   {l.label}
                 </a>
               ))}
             </nav>
+
+            {/* Mobile Nav Toggle */}
+            <button 
+              className="p-2 -mr-2 md:hidden"
+              onClick={() => setIsMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu size={24} />
+            </button>
           </header>
+
+          {/* Mobile Nav Overlay */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div 
+                className="fixed inset-0 z-[200] flex flex-col bg-ink p-5 text-bone sm:p-8"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
+              >
+                <div className="flex items-center justify-between">
+                  <div 
+                    className="h-10 w-32 bg-current"
+                    style={{
+                      WebkitMaskImage: 'url(/images/big-stone/logo.png)',
+                      WebkitMaskSize: 'contain',
+                      WebkitMaskRepeat: 'no-repeat',
+                      WebkitMaskPosition: 'left center',
+                      maskImage: 'url(/images/big-stone/logo.png)',
+                      maskSize: 'contain',
+                      maskRepeat: 'no-repeat',
+                      maskPosition: 'left center',
+                    }}
+                  />
+                  <button onClick={() => setIsMenuOpen(false)} className="p-2 -mr-2" aria-label="Close menu">
+                    <X size={24} />
+                  </button>
+                </div>
+                <nav className="mt-16 flex flex-col gap-8 text-2xl font-bold uppercase tracking-widest">
+                  {NAV_LINKS.map((l) => (
+                    <a 
+                      key={l.href} 
+                      href={l.href} 
+                      onClick={() => setIsMenuOpen(false)}
+                      className="transition-opacity duration-200 hover:opacity-70"
+                    >
+                      {l.label}
+                    </a>
+                  ))}
+                </nav>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <div className="hero-grid mt-6 flex-1 md:mt-8 md:min-h-0">
             {/* LEFT — protected copy zone (static) */}
@@ -82,7 +152,7 @@ export default function Hero() {
             </div>
 
             {/* CENTRE — the only zone the product may move in. overflow-hidden clips it. */}
-            <div className="hero-stage relative h-[clamp(260px,42vh,420px)] md:h-auto">
+            <div className="hero-stage relative h-[clamp(200px,36vh,420px)] md:h-auto">
               <ProductStage
                 productKey={current.id}
                 image={current.image}
