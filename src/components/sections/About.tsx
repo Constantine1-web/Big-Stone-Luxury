@@ -33,7 +33,7 @@ export default function About() {
       ))}
 
       <div className="relative z-10 flex flex-col items-center text-center">
-        <FadeIn as="h2" y={40} className="text-hero-gradient whitespace-nowrap font-black uppercase leading-none tracking-tight text-[clamp(3.5rem,13vw,200px)]">
+        <FadeIn as="h2" y={40} className="text-hero-gradient font-black uppercase leading-none tracking-tight text-[clamp(2.5rem,12vw,200px)] text-center">
           Our Story
         </FadeIn>
 

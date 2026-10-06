@@ -195,7 +195,7 @@ export default function Hero() {
 
             {/* CTA */}
             <div className="hero-cta flex items-end">
-              <Button href="#collections">Shop the collection</Button>
+              <Button href="https://x.com/dfwconstantine" target="_blank" rel="noopener noreferrer">Shop the collection</Button>
             </div>
 
             {/* CONTROLS — colour selectors + next-product preview (fixed position) */}

@@ -15,7 +15,7 @@ export default function Collections() {
       id="collections"
       className="relative z-10 -mt-10 rounded-t-[40px] bg-ink px-4 pb-24 pt-20 sm:-mt-12 sm:rounded-t-[50px] sm:px-6 md:-mt-14 md:rounded-t-[60px] md:px-10 md:pt-28"
     >
-      <FadeIn as="h2" y={40} className="text-hero-gradient text-center font-black uppercase leading-none tracking-tight text-[clamp(3rem,12.5vw,200px)]">
+      <FadeIn as="h2" y={40} className="text-hero-gradient text-center font-black uppercase leading-none tracking-tight text-[clamp(2rem,11vw,200px)] break-words">
         Collections
       </FadeIn>
 
