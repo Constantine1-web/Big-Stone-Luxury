@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../ui/Button';
 import { BIG_STONE_ASSETS, formatNaira } from '../../config/assets';
 
-const TRANSITION_DURATION = 0.45;
-const HOLD_DURATION = 1300; // 850ms hold + 450ms transition
-const EASE_CURVE = [0.22, 0.75, 0.20, 1];
+const TRANSITION_DURATION = 0.55; // Slightly slower transition so it's readable
+const HOLD_DURATION = 4000; // 4 seconds hold (so it's not too fast)
+const EASE_CURVE = [0.16, 1, 0.3, 1]; // using the alternative curve requested by user
 
 export default function Hero() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -109,9 +109,9 @@ export default function Hero() {
                 src={current.src}
                 alt={current.name}
                 className="absolute h-full max-h-[400px] md:max-h-[75vh] w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
-                initial={{ opacity: 0, scale: 0.96, y: 55, filter: 'blur(3px)' }}
+                initial={{ opacity: 0, scale: 0.94, y: 70, filter: 'blur(4px)' }}
                 animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, scale: 0.96, y: -55, filter: 'blur(3px)' }}
+                exit={{ opacity: 0, scale: 0.94, y: -70, filter: 'blur(4px)' }}
                 transition={{ duration: TRANSITION_DURATION, ease: EASE_CURVE }}
               />
             </AnimatePresence>
