@@ -122,21 +122,43 @@ export default function Hero() {
           <AnimatePresence mode="popLayout">
             <motion.div
               key={current.id}
-              initial={{ opacity: 0, scale: 0.9, x: isMobile ? 0 : 50, y: isMobile ? 20 : 0 }}
+              initial={{ opacity: 0, scale: 0.4, x: isMobile ? 100 : 250, y: isMobile ? 100 : 200 }}
               animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
-              exit={{ opacity: 0, scale: 1.05, x: isMobile ? 0 : -50, y: isMobile ? -20 : 0 }}
-              transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+              exit={{ opacity: 0, scale: 0.5, x: isMobile ? -50 : -200, y: isMobile ? -100 : -200 }}
+              transition={{ duration: 0.9, ease: [0.25, 1, 0.5, 1] }}
               className="relative z-10 flex h-full w-full items-center justify-center"
             >
               <img
                 src={current.src}
                 alt={current.name}
-                className="h-full max-h-[400px] md:max-h-[85vh] w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                className="h-full max-h-[400px] md:max-h-[75vh] w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
               />
             </motion.div>
           </AnimatePresence>
         </div>
 
+      </div>
+
+      {/* Next Item Thumbnail Preview */}
+      <div 
+        className="absolute bottom-6 right-6 md:bottom-12 md:right-12 z-30 flex cursor-pointer flex-col items-end gap-2"
+        onClick={() => setActiveIndex((activeIndex + 1) % slider.length)}
+      >
+        <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-bone/50">Next</span>
+        <div className="flex h-16 w-16 md:h-24 md:w-24 items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur-md transition-transform hover:scale-105">
+          <AnimatePresence mode="popLayout">
+            <motion.img
+              key={slider[(activeIndex + 1) % slider.length].id}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.2 }}
+              transition={{ duration: 0.5 }}
+              src={slider[(activeIndex + 1) % slider.length].src}
+              className="h-full w-full object-contain drop-shadow-lg"
+              alt="Next item"
+            />
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* Slider Indicators */}
