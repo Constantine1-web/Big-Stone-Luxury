@@ -27,13 +27,13 @@ export default function Hero() {
       </FadeIn>
 
       {/* GIANT HEADLINE (sits behind the model) */}
-      <div className="relative z-0 mt-3 w-full overflow-hidden md:mt-4">
+      <div className="relative z-0 mt-6 w-full overflow-hidden md:mt-10 lg:mt-12">
         <FadeIn
           as="h1"
           immediate
           y={40}
           delay={0.15}
-          className="text-hero-gradient -mx-[1.5vw] w-full whitespace-nowrap text-center font-black uppercase leading-none tracking-tight text-[12vw] sm:text-[12.3vw] md:text-[12.6vw] lg:text-[12.9vw]"
+          className="text-hero-gradient -mx-[1vw] w-[102vw] whitespace-nowrap text-center font-black uppercase leading-none tracking-tight text-[10.6vw] sm:text-[10.8vw] md:text-[11vw] lg:text-[11.2vw]"
         >
           Wear the Moment
         </FadeIn>
@@ -42,14 +42,22 @@ export default function Hero() {
       {/* MODEL VISUAL */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 w-[280px] -translate-x-1/2 -translate-y-[42%] sm:w-[360px] md:top-auto md:bottom-0 md:w-[440px] md:translate-y-0 lg:w-[520px]">
         <FadeIn immediate y={30} delay={0.6}>
-          <div ref={ref} style={style} className="pointer-events-auto">
+          <div
+            ref={ref}
+            style={{
+              ...style,
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, #000 14%, #000 88%, transparent 100%)',
+              maskImage: 'linear-gradient(to bottom, transparent 0%, #000 14%, #000 88%, transparent 100%)',
+            }}
+            className="pointer-events-auto"
+          >
             <img
               src={heroImage.src}
               alt={heroImage.alt}
-              className="block h-auto max-h-[78svh] w-full object-contain object-bottom"
+              className="block h-auto max-h-[80svh] w-full object-contain object-bottom"
               style={{
-                WebkitMaskImage: 'radial-gradient(ellipse 62% 75% at 50% 48%, #000 55%, transparent 100%)',
-                maskImage: 'radial-gradient(ellipse 62% 75% at 50% 48%, #000 55%, transparent 100%)',
+                WebkitMaskImage: 'radial-gradient(ellipse 48% 75% at 50% 50%, #000 60%, transparent 100%)',
+                maskImage: 'radial-gradient(ellipse 48% 75% at 50% 50%, #000 60%, transparent 100%)',
               }}
               fetchPriority="high"
             />

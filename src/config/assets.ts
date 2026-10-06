@@ -27,7 +27,7 @@ export interface DecorativeAsset {
 const lookbookImages: Piece[] = [
   { src: unsplash('1509631179647-0177331693ae'), alt: 'Model in a flowing evening gown', name: 'Obsidian Evening Gown', price: 485000 },
   { src: unsplash('1507679799987-c73779587ccf'), alt: 'Tailored dark suit detail', name: 'Stone Tailored Suit', price: 650000 },
-  { src: unsplash('1548036328-c9fa89d128fa'), alt: 'Structured leather handbag', name: 'Ikot Leather Tote', price: 320000 },
+  { src: '/images/big-stone/deco-bag.jpg', alt: 'Black leather handbag with gold hardware', name: 'Ikot Leather Tote', price: 320000 },
   { src: unsplash('1515886657613-9f3515b0c78f'), alt: 'Editorial portrait in monochrome styling', name: 'Monochrome Wrap Dress', price: 275000 },
   { src: unsplash('1543163521-1bf539c55dd2'), alt: 'Designer heels on display', name: 'Champagne Satin Heel', price: 210000 },
   { src: unsplash('1594938298603-c8148c4dae35'), alt: 'Man adjusting a tailored jacket', name: 'Midnight Blazer', price: 395000 },
