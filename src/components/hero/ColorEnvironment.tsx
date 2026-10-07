@@ -4,7 +4,7 @@ import type { ProductState } from '../../config/products';
 interface Props {
   product: ProductState;
   /** transition counter — newer layers always stack above older ones */
-  layer: number;
+  layer?: number;
   transitionMs: number;
   variant: 'panel' | 'outer';
 }
@@ -26,7 +26,7 @@ const outerBackground = (p: ProductState) =>
  * window as the product handoff, so both finish together. No flat colours,
  * no hard switch.
  */
-export default function ColorEnvironment({ product, layer, transitionMs, variant }: Props) {
+export default function ColorEnvironment({ product, transitionMs, variant }: Props) {
   const T = transitionMs / 1000;
   const background = variant === 'panel' ? panelBackground(product) : outerBackground(product);
 
